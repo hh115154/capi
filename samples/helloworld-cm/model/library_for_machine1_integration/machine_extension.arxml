@@ -34,6 +34,14 @@ The word AUTOSAR and the AUTOSAR logo are registered trademarks.
                         <MACHINE>
                             <SHORT-NAME>Machine1</SHORT-NAME>
                             <MODULE-INSTANTIATIONS>
+                                <IAM-MODULE-INSTANTIATION>
+                                    <SHORT-NAME>IamModuleInstantiation</SHORT-NAME>
+                                    <GRANT-REFS>
+                                        <GRANT-REF DEST="COM-FIND-SERVICE-GRANT">/Grant/client2_findservicegrant</GRANT-REF>
+                                        <GRANT-REF DEST="COM-METHOD-GRANT">/Grant/client2_echomethodgrant</GRANT-REF>
+                                        <GRANT-REF DEST="COM-EVENT-GRANT">/Grant/client2_testeventgrant</GRANT-REF>
+                                    </GRANT-REFS>
+                                </IAM-MODULE-INSTANTIATION>
                                 <LOG-AND-TRACE-INSTANTIATION>
                                     <SHORT-NAME>helloworld_client_log</SHORT-NAME>
                                     <DLT-LOG-CHANNELS>

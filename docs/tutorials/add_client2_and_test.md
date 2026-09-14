@@ -247,7 +247,7 @@ using Proxy = hello::world::cm::proxy::ServiceHelloWorldProxy;
 
 本次将业务日志标记改为 `Helloworld-cm-Client2`，请求内容改为 `Com-Client2-Test[n]`。每隔约一秒调用一次 `EchoMethod()` 并打印返回的 `echo`。
 
-当前代码沿用 `InstanceIdentifier::MakeAny()` 并选择首个发现的 handle。这次测试针对已有实例 `29`；若以后增加多个可选服务端，需要明确实例选择逻辑。当前客户端未实现 `testEvent` 订阅。
+当前代码沿用 `InstanceIdentifier::MakeAny()` 并选择首个发现的 handle。这次测试针对已有实例 `29`；若以后增加多个可选服务端，需要明确实例选择逻辑。后续已补齐 `testEvent` 订阅，修改点和验证见第 12 节。
 
 ### 6.3 编译并安装
 
@@ -426,7 +426,7 @@ docker logs -f --since 1m capi_demo 2>&1 | grep --line-buffered 'Com-Client2-Tes
 | Machine1 部署 | 程序和 `client2_process` 配置已进入运行目录 |
 | Machine2 服务 | `Driving`、`serverd`、`OfferService` 已确认 |
 | 方法通信 | 新客户端持续收到 EchoMethod 回包，所示 5 次调用间隔约一秒 |
-| 事件通信 | 未实现客户端事件订阅，本次未验证 |
+| 事件通信 | 初次方法通信测试未验证；后续订阅测试见第 12 节 |
 | 压力、重连、长时间稳定性 | 本次未验证 |
 
 `Client2 [135]` 与消息中的 `[136]` 相差一，是因为业务日志打印 `nLoopCount`，请求内容使用 `nLoopCount + 1`。这不是丢包或服务端篡改序号。
@@ -465,3 +465,38 @@ docker exec capi_demo sh -lc 'sudo "${ARA_SYSROOT}/run.sh" -s'
 ```
 
 再次测试时先检查容器状态；Machine2 平台停止后容器可能退出，需要重新启动容器。每次更新模型或程序，都应重新完成对应的编译安装、机器配置和启动验证。
+
+## 12. 补齐 client2 的事件订阅
+
+本次复用已有 `testEvent`，无需新增服务接口或修改 server。服务端每处理一次 `EchoMethod` 就发送一个 ByteArray，内容为 `abc`；事件组 `Eventgroup1` 已在 client2 的 Required 实例中配置。
+
+修改位置（相对于 `samples/helloworld-cm`）：
+
+| 文件 | 修改内容 |
+| --- | --- |
+| `client2/src/main.cpp` | 创建 Proxy 后注册订阅状态和接收回调，调用 `testEvent.Subscribe(8)`；接收回调通过 `GetNewSamples` 读取并打印数据，保留周期 EchoMethod 调用 |
+| `model/library_for_machine1_integration/client2_deployment.arxml` | 新增 `/Grant/client2_testeventgrant`，绑定 client2 Required 实例与 `testEvent` 部署 |
+| `model/library_for_machine1_integration/machine_extension.arxml` | 在 Machine1 的 `IamModuleInstantiation` 中引用 client2 的发现、方法、事件 Grant |
+
+`Subscribe(8)` 中的 8 是样本容量，不是发送周期。订阅请求返回成功后，仍需观察异步状态是否进入 `Subscribed`。退出时先等待正在执行的回调结束、禁止后续回调访问对象，然后取消订阅并移除回调，最后释放 Proxy 和反初始化平台。
+
+Machine1 基础模型的本地及远程访问控制开关仍为 `false`。此次补齐了 Grant 及其引用，但没有验证启用 IAM 后的权限拦截行为。
+
+重新执行第 6.3 节编译安装、第 7 节机器配置，以及第 8 节双机启动后，在开发容器中观察：
+
+```bash
+tail -f /tmp/machine1-console.log | grep --line-buffered -E 'Client2 testEvent|Helloworld-cm-Client2.*recv echo'
+```
+
+2026-09-14 后续双机实测日志（空白已归一化）：
+
+```text
+08:35:48.266 ... clt2 #COM Info [ Client2 testEvent subscription: SubscriptionPending ]
+08:35:48.268 ... clt2 #COM Info [ Client2 testEvent subscription: Subscribed ]
+08:35:48.268 ... clt2 #COM Info [ Client2 testEvent received: abc bytes: 3 ]
+08:35:49.271 ... clt2 #COM Info [ Client2 testEvent received: abc bytes: 3 ]
+```
+
+此次验证使用独立日志 `/tmp/client2-event-machine1.log`，避免覆盖初次测试的 `/tmp/machine1-console.log`。检查时已收到 40 条 `abc` 事件与 20 条 client2 EchoMethod 回包。原客户端和 client2 都会触发 server 发送事件，因此事件条数不必与 client2 的方法调用次数相等；事件 payload 也不携带请求序号。
+
+若只有 EchoMethod 回包却没有事件，先检查订阅状态，再检查两端的事件 ID、事件组、Required 实例和生成配置。`SubscriptionPending` 表示尚未完成订阅，不能作为接收成功的证据。

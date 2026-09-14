@@ -126,6 +126,11 @@ The word AUTOSAR and the AUTOSAR logo are registered trademarks.
           <SERVICE-INSTANCE-REF DEST="REQUIRED-SOMEIP-SERVICE-INSTANCE">/SomeipInstancesDeployments/RequiredInstanceServiceHelloWorldClient2</SERVICE-INSTANCE-REF>
           <SERVICE-DEPLOYMENT-REF DEST="SOMEIP-METHOD-DEPLOYMENT">/SomeipDeployments/ServiceHelloWorld/EchoMethod</SERVICE-DEPLOYMENT-REF>
         </COM-METHOD-GRANT>
+        <COM-EVENT-GRANT>
+          <SHORT-NAME>client2_testeventgrant</SHORT-NAME>
+          <SERVICE-INSTANCE-REF DEST="REQUIRED-SOMEIP-SERVICE-INSTANCE">/SomeipInstancesDeployments/RequiredInstanceServiceHelloWorldClient2</SERVICE-INSTANCE-REF>
+          <SERVICE-DEPLOYMENT-REF DEST="SOMEIP-EVENT-DEPLOYMENT">/SomeipDeployments/ServiceHelloWorld/testEvent</SERVICE-DEPLOYMENT-REF>
+        </COM-EVENT-GRANT>
       </ELEMENTS>
     </AR-PACKAGE>
     </AR-PACKAGES>
