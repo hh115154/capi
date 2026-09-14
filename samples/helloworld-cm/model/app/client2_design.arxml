@@ -58,6 +58,10 @@ The word AUTOSAR and the AUTOSAR logo are registered trademarks.
                                     <SHORT-NAME>helloworld_RPort</SHORT-NAME>
                                     <REQUIRED-INTERFACE-TREF DEST="SERVICE-INTERFACE">/HelloWorldServiceInterfaces/ServiceHelloWorld</REQUIRED-INTERFACE-TREF>
                                 </R-PORT-PROTOTYPE>
+                                <R-PORT-PROTOTYPE>
+                                    <SHORT-NAME>counter_RPort</SHORT-NAME>
+                                    <REQUIRED-INTERFACE-TREF DEST="SERVICE-INTERFACE">/CounterInterfaces/CounterService</REQUIRED-INTERFACE-TREF>
+                                </R-PORT-PROTOTYPE>
                             </PORTS>
                         </ADAPTIVE-APPLICATION-SW-COMPONENT-TYPE>
                     </ELEMENTS>

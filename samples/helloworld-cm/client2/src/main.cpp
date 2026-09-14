@@ -45,6 +45,7 @@
 #include "ara/core/initialization.h"
 #include "ara/core/promise.h"
 #include "hello/world/cm/servicehelloworld_proxy.h"
+#include "counter_client.h"
 
 namespace {
 
@@ -163,7 +164,12 @@ int main(int argc, char *argv[])
             // Reserve space for up to eight samples; subscription acknowledgement is asynchronous.
             ready = check(proxy->testEvent.Subscribe(8), "Subscribe");
         }
+        CounterClient counterClient(logger);
         while (ready && continueExecution) {
+            if (!counterClient.Tick()) {
+                exitCode = EXIT_FAILURE;
+                break;
+            }
             std::string stMsg = "Com-Client2-Test[";
             stMsg += std::to_string(nLoopCount + 1);
             stMsg += "]";

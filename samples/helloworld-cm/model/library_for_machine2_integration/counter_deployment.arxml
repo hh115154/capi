@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00049.xsd">
+  <AR-PACKAGES>
+    <AR-PACKAGE>
+      <SHORT-NAME>CounterDeployment2</SHORT-NAME>
+      <ELEMENTS>
+        <PROVIDED-SOMEIP-SERVICE-INSTANCE>
+          <SHORT-NAME>ProvidedCounter</SHORT-NAME>
+          <SERVICE-INTERFACE-DEPLOYMENT-REF DEST="SOMEIP-SERVICE-INTERFACE-DEPLOYMENT">/CounterSomeipDeployments/CounterService</SERVICE-INTERFACE-DEPLOYMENT-REF>
+          <PROVIDED-EVENT-GROUPS>
+            <SOMEIP-PROVIDED-EVENT-GROUP>
+              <SHORT-NAME>ProvidedEventgroup1</SHORT-NAME>
+              <EVENT-GROUP-REF DEST="SOMEIP-EVENT-GROUP">/CounterSomeipDeployments/CounterService/Eventgroup1</EVENT-GROUP-REF>
+              <MULTICAST-THRESHOLD>0</MULTICAST-THRESHOLD>
+            </SOMEIP-PROVIDED-EVENT-GROUP>
+          </PROVIDED-EVENT-GROUPS>
+          <SERVICE-INSTANCE-ID>1</SERVICE-INSTANCE-ID>
+        </PROVIDED-SOMEIP-SERVICE-INSTANCE>
+        <SOMEIP-SERVICE-INSTANCE-TO-MACHINE-MAPPING>
+          <SHORT-NAME>Counter_toMachine</SHORT-NAME>
+          <COMMUNICATION-CONNECTOR-REF DEST="ETHERNET-COMMUNICATION-CONNECTOR">/ISOFT/Development/MachineDesign2/CommunicationConnector1</COMMUNICATION-CONNECTOR-REF>
+          <SERVICE-INSTANCE-REFS>
+            <SERVICE-INSTANCE-REF DEST="PROVIDED-SOMEIP-SERVICE-INSTANCE">/CounterDeployment2/ProvidedCounter</SERVICE-INSTANCE-REF>
+          </SERVICE-INSTANCE-REFS>
+          <UDP-PORT>5002</UDP-PORT>
+        </SOMEIP-SERVICE-INSTANCE-TO-MACHINE-MAPPING>
+        <SERVICE-INSTANCE-TO-PORT-PROTOTYPE-MAPPING UUID="">
+          <SHORT-NAME>Counter_toPort</SHORT-NAME>
+          <PORT-PROTOTYPE-IREF>
+            <CONTEXT-ROOT-SW-COMPONENT-PROTOTYPE-REF DEST="ROOT-SW-COMPONENT-PROTOTYPE">/ServerApp/exe/serverd/server</CONTEXT-ROOT-SW-COMPONENT-PROTOTYPE-REF>
+            <TARGET-PORT-PROTOTYPE-REF DEST="P-PORT-PROTOTYPE">/ServerApp/swc/server/counter_PPort</TARGET-PORT-PROTOTYPE-REF>
+          </PORT-PROTOTYPE-IREF>
+          <PROCESS-DESIGN-REF DEST="PROCESS-DESIGN">/ServerApp/ServerDesign</PROCESS-DESIGN-REF>
+          <PROCESS-REF DEST="PROCESS">/ServerDeployment2/server_process</PROCESS-REF>
+          <SERVICE-INSTANCE-REF DEST="PROVIDED-SOMEIP-SERVICE-INSTANCE">/CounterDeployment2/ProvidedCounter</SERVICE-INSTANCE-REF>
+        </SERVICE-INSTANCE-TO-PORT-PROTOTYPE-MAPPING>
+        <COM-OFFER-SERVICE-GRANT>
+          <SHORT-NAME>counter_offer</SHORT-NAME>
+          <SERVICE-INSTANCE-REF DEST="PROVIDED-SOMEIP-SERVICE-INSTANCE">/CounterDeployment2/ProvidedCounter</SERVICE-INSTANCE-REF>
+        </COM-OFFER-SERVICE-GRANT>
+        <COM-EVENT-GRANT>
+          <SHORT-NAME>counter_event</SHORT-NAME>
+          <SERVICE-INSTANCE-REF DEST="PROVIDED-SOMEIP-SERVICE-INSTANCE">/CounterDeployment2/ProvidedCounter</SERVICE-INSTANCE-REF>
+          <SERVICE-DEPLOYMENT-REF DEST="SOMEIP-EVENT-DEPLOYMENT">/CounterSomeipDeployments/CounterService/CounterChanged</SERVICE-DEPLOYMENT-REF>
+        </COM-EVENT-GRANT>
+      </ELEMENTS>
+    </AR-PACKAGE>
+    <AR-PACKAGE>
+      <SHORT-NAME>ISOFT</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE>
+          <SHORT-NAME>Development</SHORT-NAME>
+          <ELEMENTS>
+            <MACHINE>
+              <SHORT-NAME>Machine2</SHORT-NAME>
+              <MODULE-INSTANTIATIONS>
+                <IAM-MODULE-INSTANTIATION>
+                  <SHORT-NAME>IamModuleInstantiation</SHORT-NAME>
+                  <GRANT-REFS>
+                    <GRANT-REF DEST="COM-OFFER-SERVICE-GRANT">/CounterDeployment2/counter_offer</GRANT-REF>
+                    <GRANT-REF DEST="COM-EVENT-GRANT">/CounterDeployment2/counter_event</GRANT-REF>
+                  </GRANT-REFS>
+                </IAM-MODULE-INSTANTIATION>
+              </MODULE-INSTANTIATIONS>
+            </MACHINE>
+          </ELEMENTS>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

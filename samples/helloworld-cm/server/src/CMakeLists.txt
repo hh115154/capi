@@ -26,6 +26,7 @@
 
 set(EXE_src
     main.cpp
+    counter_service.cpp
 )
 set(EXE_target ${ARA_GEN_EXECUTABLE})
 add_executable(${EXE_target} ${EXE_src})

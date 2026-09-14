@@ -500,3 +500,7 @@ tail -f /tmp/machine1-console.log | grep --line-buffered -E 'Client2 testEvent|H
 此次验证使用独立日志 `/tmp/client2-event-machine1.log`，避免覆盖初次测试的 `/tmp/machine1-console.log`。检查时已收到 40 条 `abc` 事件与 20 条 client2 EchoMethod 回包。原客户端和 client2 都会触发 server 发送事件，因此事件条数不必与 client2 的方法调用次数相等；事件 payload 也不携带请求序号。
 
 若只有 EchoMethod 回包却没有事件，先检查订阅状态，再检查两端的事件 ID、事件组、Required 实例和生成配置。`SubscriptionPending` 表示尚未完成订阅，不能作为接收成功的证据。
+
+## 13. 下一步：自己定义一个服务
+
+项目已新增 [CounterService 学习与双机测试教程](add_counter_service_and_test.md)：在现有 serverd/client2d 中接入新接口，学习 `GetCounter()` 与独立周期发布的 `CounterChanged`。按该教程重建服务端镜像并配置 Machine1 后，可以同时观察原 HelloWorld 通信和新的计数服务。

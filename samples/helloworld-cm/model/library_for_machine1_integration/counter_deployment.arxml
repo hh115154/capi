@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='utf-8'?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00049.xsd">
+  <AR-PACKAGES>
+    <AR-PACKAGE>
+      <SHORT-NAME>CounterDeployment1</SHORT-NAME>
+      <ELEMENTS>
+        <REQUIRED-SOMEIP-SERVICE-INSTANCE>
+          <SHORT-NAME>RequiredCounter</SHORT-NAME>
+          <SERVICE-INTERFACE-DEPLOYMENT-REF DEST="SOMEIP-SERVICE-INTERFACE-DEPLOYMENT">/CounterSomeipDeployments/CounterService</SERVICE-INTERFACE-DEPLOYMENT-REF>
+          <REQUIRED-EVENT-GROUPS>
+            <SOMEIP-REQUIRED-EVENT-GROUP>
+              <SHORT-NAME>RequiredEventgroup1</SHORT-NAME>
+              <EVENT-GROUP-REF DEST="SOMEIP-EVENT-GROUP">/CounterSomeipDeployments/CounterService/Eventgroup1</EVENT-GROUP-REF>
+            </SOMEIP-REQUIRED-EVENT-GROUP>
+          </REQUIRED-EVENT-GROUPS>
+          <REQUIRED-MINOR-VERSION>0</REQUIRED-MINOR-VERSION>
+          <REQUIRED-SERVICE-INSTANCE-ID>1</REQUIRED-SERVICE-INSTANCE-ID>
+          <VERSION-DRIVEN-FIND-BEHAVIOR>MINIMUM-MINOR-VERSION</VERSION-DRIVEN-FIND-BEHAVIOR>
+        </REQUIRED-SOMEIP-SERVICE-INSTANCE>
+        <SOMEIP-SERVICE-INSTANCE-TO-MACHINE-MAPPING>
+          <SHORT-NAME>Counter_toMachine</SHORT-NAME>
+          <COMMUNICATION-CONNECTOR-REF DEST="ETHERNET-COMMUNICATION-CONNECTOR">/ISOFT/Development/MachineDesign1/CommunicationConnector1</COMMUNICATION-CONNECTOR-REF>
+          <SERVICE-INSTANCE-REFS>
+            <SERVICE-INSTANCE-REF DEST="REQUIRED-SOMEIP-SERVICE-INSTANCE">/CounterDeployment1/RequiredCounter</SERVICE-INSTANCE-REF>
+          </SERVICE-INSTANCE-REFS>
+        </SOMEIP-SERVICE-INSTANCE-TO-MACHINE-MAPPING>
+        <SERVICE-INSTANCE-TO-PORT-PROTOTYPE-MAPPING UUID="">
+          <SHORT-NAME>Counter_toPort</SHORT-NAME>
+          <PORT-PROTOTYPE-IREF>
+            <CONTEXT-ROOT-SW-COMPONENT-PROTOTYPE-REF DEST="ROOT-SW-COMPONENT-PROTOTYPE">/Client2App/exe/client2d/client2</CONTEXT-ROOT-SW-COMPONENT-PROTOTYPE-REF>
+            <TARGET-PORT-PROTOTYPE-REF DEST="R-PORT-PROTOTYPE">/Client2App/swc/client2/counter_RPort</TARGET-PORT-PROTOTYPE-REF>
+          </PORT-PROTOTYPE-IREF>
+          <PROCESS-DESIGN-REF DEST="PROCESS-DESIGN">/Client2App/Client2Design</PROCESS-DESIGN-REF>
+          <PROCESS-REF DEST="PROCESS">/Client2Deployment/client2_process</PROCESS-REF>
+          <SERVICE-INSTANCE-REF DEST="REQUIRED-SOMEIP-SERVICE-INSTANCE">/CounterDeployment1/RequiredCounter</SERVICE-INSTANCE-REF>
+        </SERVICE-INSTANCE-TO-PORT-PROTOTYPE-MAPPING>
+        <COM-FIND-SERVICE-GRANT>
+          <SHORT-NAME>counter_find</SHORT-NAME>
+          <SERVICE-INSTANCE-REF DEST="REQUIRED-SOMEIP-SERVICE-INSTANCE">/CounterDeployment1/RequiredCounter</SERVICE-INSTANCE-REF>
+        </COM-FIND-SERVICE-GRANT>
+        <COM-METHOD-GRANT>
+          <SHORT-NAME>counter_get</SHORT-NAME>
+          <SERVICE-INSTANCE-REF DEST="REQUIRED-SOMEIP-SERVICE-INSTANCE">/CounterDeployment1/RequiredCounter</SERVICE-INSTANCE-REF>
+          <SERVICE-DEPLOYMENT-REF DEST="SOMEIP-METHOD-DEPLOYMENT">/CounterSomeipDeployments/CounterService/GetCounter</SERVICE-DEPLOYMENT-REF>
+        </COM-METHOD-GRANT>
+        <COM-EVENT-GRANT>
+          <SHORT-NAME>counter_event</SHORT-NAME>
+          <SERVICE-INSTANCE-REF DEST="REQUIRED-SOMEIP-SERVICE-INSTANCE">/CounterDeployment1/RequiredCounter</SERVICE-INSTANCE-REF>
+          <SERVICE-DEPLOYMENT-REF DEST="SOMEIP-EVENT-DEPLOYMENT">/CounterSomeipDeployments/CounterService/CounterChanged</SERVICE-DEPLOYMENT-REF>
+        </COM-EVENT-GRANT>
+      </ELEMENTS>
+    </AR-PACKAGE>
+    <AR-PACKAGE>
+      <SHORT-NAME>ISOFT</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE>
+          <SHORT-NAME>Development</SHORT-NAME>
+          <ELEMENTS>
+            <MACHINE>
+              <SHORT-NAME>Machine1</SHORT-NAME>
+              <MODULE-INSTANTIATIONS>
+                <IAM-MODULE-INSTANTIATION>
+                  <SHORT-NAME>IamModuleInstantiation</SHORT-NAME>
+                  <GRANT-REFS>
+                    <GRANT-REF DEST="COM-FIND-SERVICE-GRANT">/CounterDeployment1/counter_find</GRANT-REF>
+                    <GRANT-REF DEST="COM-METHOD-GRANT">/CounterDeployment1/counter_get</GRANT-REF>
+                    <GRANT-REF DEST="COM-EVENT-GRANT">/CounterDeployment1/counter_event</GRANT-REF>
+                  </GRANT-REFS>
+                </IAM-MODULE-INSTANTIATION>
+              </MODULE-INSTANTIATIONS>
+            </MACHINE>
+          </ELEMENTS>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

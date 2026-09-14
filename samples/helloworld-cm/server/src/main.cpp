@@ -41,6 +41,7 @@
 
 #include "ara/core/initialization.h"
 #include "hello/world/cm/servicehelloworld_skeleton.h"
+#include "counter_service.h"
 namespace {
 
 // Atomic flag for exit after SIGTERM caught
@@ -114,6 +115,7 @@ int main(int argc, char *argv[])
         logger.LogError() << "iSOFT for CAPI: Unable to register signal handler";
     }
 
+    int exitCode = EXIT_SUCCESS;
     {  // auto release
         ara::core::InstanceSpecifier instanceSpec{"serverd/server/helloworld_PPort"};
         auto skeleton = ServiceHelloWorldImp::Create< ServiceHelloWorldImp >(instanceSpec).Value();
@@ -122,8 +124,31 @@ int main(int argc, char *argv[])
         ara::exec::ExecutionClient{}.ReportExecutionState(ara::exec::ExecutionState::kRunning);
         logger.LogInfo() << "iSOFT for CAPI: ReportExecutionState kRunning";
 
-        while (continueExecution) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        auto counterResult = CounterServiceImpl::Create<CounterServiceImpl>(
+            ara::core::InstanceSpecifier{"serverd/server/counter_PPort"});
+        if (!counterResult) {
+            logger.LogError() << "CounterServer Create failed:" << counterResult.Error().Message();
+            exitCode = EXIT_FAILURE;
+        } else {
+            auto counter = std::move(counterResult).Value();
+            auto offered = counter.OfferService();
+            if (!offered) {
+                logger.LogError() << "CounterServer OfferService failed:" << offered.Error().Message();
+                exitCode = EXIT_FAILURE;
+            } else {
+                logger.LogInfo() << "CounterServer offered";
+                auto next = std::chrono::steady_clock::now();
+                while (continueExecution) {
+                    next += std::chrono::seconds(1);
+                    std::this_thread::sleep_until(next);
+                    if (continueExecution && !counter.PublishNext()) {
+                        exitCode = EXIT_FAILURE;
+                        break;
+                    }
+                }
+                counter.StopOfferService();
+                logger.LogInfo() << "CounterServer stopped";
+            }
         }
         skeleton.StopOfferService();
     }
@@ -131,5 +156,5 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    return EXIT_SUCCESS;
+    return exitCode;
 }
