@@ -185,8 +185,13 @@ function(utils_get_cmake_args_from_cache_vars OUTPUT_VAR)
         # Get variable value
         get_property(VAR_VALUE CACHE ${VAR_NAME} PROPERTY VALUE)
 
-        # Generate -D parameter format
-        list(APPEND MATCHED_ARGS_LIST "-D${VAR_NAME}=${VAR_VALUE}")
+        # Keep path types: an untyped relative -D value becomes absolute when
+        # the child project first initializes it as a PATH/FILEPATH cache entry.
+        if(VAR_TYPE STREQUAL "PATH" OR VAR_TYPE STREQUAL "FILEPATH")
+            list(APPEND MATCHED_ARGS_LIST "-D${VAR_NAME}:${VAR_TYPE}=${VAR_VALUE}")
+        else()
+            list(APPEND MATCHED_ARGS_LIST "-D${VAR_NAME}=${VAR_VALUE}")
+        endif()
     endforeach()
 
     # To maintain compatibility with existing develop2.2, need to replace some ARA_ENABLE_XX with ARA_WITH_XX

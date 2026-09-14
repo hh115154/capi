@@ -37,6 +37,7 @@
     // If there is an error connecting to the network try rebuilding the devcontainer.
     "initializeCommand": "docker network create --label com.docker.compose.network=shared_network capi_shared_network || true",
     "runArgs": [
-        "--network=capi_shared_network"
+        "--network=capi_shared_network",
+        "--cap-add=SYS_PTRACE"
     ]
 }

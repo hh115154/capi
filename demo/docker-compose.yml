@@ -46,3 +46,5 @@ services:
     tty: true
     networks:
       - shared_network
+    cap_add:
+      - SYS_PTRACE

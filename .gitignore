@@ -22,7 +22,7 @@
 # --------------------------------------------------------------------------
 
 
-/build
+/build*
 __pycache__
 # prevent users from adding corporate firewall certificates
 .devcontainer/firewall.crt

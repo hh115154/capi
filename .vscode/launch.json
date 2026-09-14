@@ -1,0 +1,43 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Machine2: Attach serverd",
+      "type": "cppdbg",
+      "request": "attach",
+      "program": "/home/vscode/capi/ara-sysroot/ara/swcls/CMDemo_server/1.1.0/bin/serverd",
+      "processId": "${command:pickRemoteProcess}",
+      "MIMode": "gdb",
+      "pipeTransport": {
+        "pipeProgram": "docker",
+        "pipeArgs": [
+          "exec", "-i", "-u", "root",
+          "capi_demo", "sh", "-c"
+        ],
+        "debuggerPath": "/usr/bin/gdb",
+        "pipeCwd": "${workspaceFolder}"
+      },
+      
+      "sourceFileMap": {
+        "/workspaces/capi": "${workspaceFolder}"
+      }
+    },
+    {
+      "name": "Machine1: Attach clientd",
+      "type": "cppdbg",
+      "request": "attach",
+      "program": "/home/vscode/capi/ara-sysroot/ara/swcls/CMDemo_client/1.1.0/bin/clientd",
+      "processId": "${command:pickRemoteProcess}",
+      "MIMode": "gdb",
+      "pipeTransport": {
+        "pipeProgram": "/usr/bin/sudo",
+        "pipeArgs": ["-n", "sh", "-c"],
+        "debuggerPath": "/usr/bin/gdb",
+        "pipeCwd": "${workspaceFolder}"
+      },
+      "sourceFileMap": {
+        "/workspaces/capi": "${workspaceFolder}"
+      }
+    }
+  ]
+}
