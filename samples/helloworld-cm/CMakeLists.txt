@@ -25,6 +25,7 @@
 cmake_minimum_required(VERSION 3.4)
 project(helloworld-cm) # tmp package 
 add_subdirectory(client)
+add_subdirectory(client2)
 add_subdirectory(server)
 
 # Install the arxml files for config machine to test examples

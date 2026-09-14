@@ -46,9 +46,11 @@ The word AUTOSAR and the AUTOSAR logo are registered trademarks.
                                             </CLAIMED-FUNCTION-GROUP-REFS>
                                             <CONTAINED-AR-ELEMENT-REFS>
                                                 <CONTAINED-AR-ELEMENT-REF DEST="EXECUTABLE">/ClientApp/exe/clientd</CONTAINED-AR-ELEMENT-REF>
+                                                <CONTAINED-AR-ELEMENT-REF DEST="EXECUTABLE">/Client2App/exe/client2d</CONTAINED-AR-ELEMENT-REF>
                                             </CONTAINED-AR-ELEMENT-REFS>
                                             <CONTAINED-PROCESS-REFS>
                                                 <CONTAINED-PROCESS-REF DEST="PROCESS">/ClientDeployment/client_process</CONTAINED-PROCESS-REF>
+                                                <CONTAINED-PROCESS-REF DEST="PROCESS">/Client2Deployment/client2_process</CONTAINED-PROCESS-REF>
                                             </CONTAINED-PROCESS-REFS>
                                             <TYPE-APPROVAL>e1*2024/123*4567*89</TYPE-APPROVAL>
                                             <VENDOR-ID>1</VENDOR-ID>

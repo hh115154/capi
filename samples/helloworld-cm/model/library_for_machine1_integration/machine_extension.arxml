@@ -77,6 +77,48 @@ The word AUTOSAR and the AUTOSAR logo are registered trademarks.
                                 </LOG-AND-TRACE-INSTANTIATION>
 
                                 <LOG-AND-TRACE-INSTANTIATION>
+                                    <SHORT-NAME>helloworld_client2_log</SHORT-NAME>
+                                    <DLT-LOG-CHANNELS>
+                                        <DLT-LOG-CHANNEL>
+                                            <SHORT-NAME>default</SHORT-NAME>
+                                            <APPLICATION-ID>clt2</APPLICATION-ID>
+                                            <CONTEXT-ID>#DFT</CONTEXT-ID>
+                                            <LOG-TRACE-DEFAULT-LOG-LEVEL>DEBUG</LOG-TRACE-DEFAULT-LOG-LEVEL>
+                                            <LOG-TRACE-FILE-PATH>/var/redirected/</LOG-TRACE-FILE-PATH>
+                                            <LOG-TRACE-LOG-MODES>
+                                                <LOG-TRACE-LOG-MODE>CONSOLE</LOG-TRACE-LOG-MODE>
+                                                <LOG-TRACE-LOG-MODE>FILE</LOG-TRACE-LOG-MODE>
+                                                <LOG-TRACE-LOG-MODE>NETWORK</LOG-TRACE-LOG-MODE>
+                                            </LOG-TRACE-LOG-MODES>
+                                        </DLT-LOG-CHANNEL>
+                                        <DLT-LOG-CHANNEL>
+                                            <SHORT-NAME>com</SHORT-NAME>
+                                            <APPLICATION-ID>clt2</APPLICATION-ID>
+                                            <CONTEXT-ID>#COM</CONTEXT-ID>
+                                            <LOG-TRACE-DEFAULT-LOG-LEVEL>DEBUG</LOG-TRACE-DEFAULT-LOG-LEVEL>
+                                            <LOG-TRACE-FILE-PATH>/var/redirected/</LOG-TRACE-FILE-PATH>
+                                            <LOG-TRACE-LOG-MODES>
+                                                <LOG-TRACE-LOG-MODE>CONSOLE</LOG-TRACE-LOG-MODE>
+                                                <LOG-TRACE-LOG-MODE>FILE</LOG-TRACE-LOG-MODE>
+                                                <LOG-TRACE-LOG-MODE>NETWORK</LOG-TRACE-LOG-MODE>
+                                            </LOG-TRACE-LOG-MODES>
+                                        </DLT-LOG-CHANNEL>
+                                        <DLT-LOG-CHANNEL>
+                                            <SHORT-NAME>nai</SHORT-NAME>
+                                            <APPLICATION-ID>clt2</APPLICATION-ID>
+                                            <CONTEXT-ID>#NAI</CONTEXT-ID>
+                                            <LOG-TRACE-DEFAULT-LOG-LEVEL>DEBUG</LOG-TRACE-DEFAULT-LOG-LEVEL>
+                                            <LOG-TRACE-FILE-PATH>/var/redirected/</LOG-TRACE-FILE-PATH>
+                                            <LOG-TRACE-LOG-MODES>
+                                                <LOG-TRACE-LOG-MODE>CONSOLE</LOG-TRACE-LOG-MODE>
+                                                <LOG-TRACE-LOG-MODE>FILE</LOG-TRACE-LOG-MODE>
+                                                <LOG-TRACE-LOG-MODE>NETWORK</LOG-TRACE-LOG-MODE>
+                                            </LOG-TRACE-LOG-MODES>
+                                        </DLT-LOG-CHANNEL>
+                                    </DLT-LOG-CHANNELS>
+                                </LOG-AND-TRACE-INSTANTIATION>
+
+                                <LOG-AND-TRACE-INSTANTIATION>
                                     <SHORT-NAME>helloworld_server_log</SHORT-NAME>
                                     <DLT-LOG-CHANNELS>
                                         <DLT-LOG-CHANNEL>

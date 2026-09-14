@@ -38,6 +38,12 @@
       "sourceFileMap": {
         "/workspaces/capi": "${workspaceFolder}"
       }
+    },
+    {
+        "name": "调试 CMake 配置",
+        "type": "cmake",
+        "request": "launch",
+        "cmakeDebugType": "configure"
     }
   ]
 }

@@ -1,0 +1,6 @@
+
+## 本文件依据所选项目中接口及实例的配置，生成了以下实例标识，以供技术人员编程使用。
+
+- interface (ServiceHelloWorld)
+    - client2d
+        -instSpec = "client2d/client2/helloworld_RPort";//SERVICE-INTERFACE
